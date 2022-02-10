@@ -21,6 +21,10 @@ function themeFromSeed(seed) {
 }
 
 const target = document.body;
+const input = document.querySelector("#seed");
+const random = document.querySelector("#random");
+const reset = document.querySelector("#reset");
+const brightness = document.querySelector("#brightness");
 
 function applyTheme(theme, options) {
   const target = options?.target || document.body;
@@ -44,23 +48,60 @@ function randomColor() {
   return color;
 }
 
-const input = document.querySelector("#seed");
+function setTheme(color, dark) {
+  if (color === null) {
+    return;
+  }
+  if (color === "") {
+    localStorage.removeItem("theme");
+    localStorage.removeItem("brightness");
+    brightness.value = window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+    target.classList.remove("dark-theme");
+    target.classList.remove("light-theme");
+    target.setAttribute("style", "");
+    reset.setAttribute("disabled", "");
+    return;
+  }
+  reset.removeAttribute("disabled");
+  localStorage.setItem("theme", color);
+  const intColor = utils.argbFromHex(color);
+  const theme = themeFromSeed(intColor);
+  applyTheme(theme, { target, dark });
+}
+
 input.addEventListener("input", (event) => {
   const color = event.target.value;
-  setTheme(color);
+  setTheme(color, brightness.value === "dark");
 });
 
-const random = document.querySelector("#random");
 random.addEventListener("click", () => {
   const color = randomColor();
   input.value = color;
-  setTheme(color);
+  setTheme(color, brightness.value === "dark");
 });
 
-const reset = document.querySelector("#reset");
 reset.addEventListener("click", () => {
   input.value = "";
-  setTheme("");
+  setTheme("", brightness.value === "dark");
+});
+
+brightness.addEventListener("change", (e) => {
+  const value = e.target.value;
+  const isDark = value === "dark";
+  if (isDark) {
+    target.classList.remove("light-theme");
+    target.classList.add("dark-theme");
+  } else {
+    target.classList.remove("dark-theme");
+    target.classList.add("light-theme");
+  }
+  const color = localStorage.getItem("theme");
+  if (color) {
+    setTheme(color, isDark);
+  }
+  localStorage.setItem("brightness", value);
 });
 
 window
@@ -71,19 +112,12 @@ window
     setTheme(color, isDark);
   });
 
-function setTheme(color, isDark) {
-  if (color === "") {
-    localStorage.removeItem("theme");
-    target.setAttribute("style", "");
-    return;
-  }
-  localStorage.setItem("theme", color);
-  const intColor = utils.argbFromHex(color);
-  const theme = themeFromSeed(intColor);
-  applyTheme(theme, target, isDark);
-}
-
-const saved = localStorage.getItem("theme");
-if (saved) {
-  setTheme(saved);
+const savedTheme = localStorage.getItem("theme");
+const savedBrightness = localStorage.getItem("brightness");
+brightness.value =
+  savedBrightness || window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+if (savedTheme) {
+  setTheme(savedTheme, savedBrightness === "dark");
 }

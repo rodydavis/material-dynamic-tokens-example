@@ -11,13 +11,21 @@
     <header><span class="title">Material Theme</span></header>
     <main>
       <button id="random">Random Color</button>
-      <div style="height: 20px"></div>
+      <div class="divider"></div>
       <div>
         <input id="seed" type="color" />
         <label for="seed">Custom Color</label>
       </div>
-      <div style="height: 20px"></div>
-      <button id="reset">Reset Theme</button>
+      <div class="divider"></div>
+      <div>
+        <select id="brightness">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+        <label for="theme">Theme Brightness</label>
+      </div>
+      <div class="divider"></div>
+      <button id="reset" disabled>Reset Theme</button>
     </main>
     <script type="module" src="app.js"></script>
   </body>
