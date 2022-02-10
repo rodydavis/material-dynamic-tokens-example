@@ -8,24 +8,26 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="material-theme">
-    <header><span class="title">Material Theme</span></header>
     <main>
-      <button id="random">Random Color</button>
-      <div class="divider"></div>
-      <div>
-        <input id="seed" type="color" />
-        <label for="seed">Custom Color</label>
-      </div>
-      <div class="divider"></div>
-      <div>
-        <select id="brightness">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-        <label for="theme">Theme Brightness</label>
-      </div>
-      <div class="divider"></div>
-      <button id="reset" disabled>Reset Theme</button>
+      <svg id="svg-background"></svg>
+      <section>
+        <button id="random">Random Color</button>
+        <div class="divider"></div>
+        <div>
+          <input id="seed" type="color" />
+          <label for="seed">Custom Color</label>
+        </div>
+        <div class="divider"></div>
+        <div>
+          <select id="brightness">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <label for="theme">Theme Brightness</label>
+        </div>
+        <div class="divider"></div>
+        <button id="reset" disabled>Reset Theme</button>
+      </section>
     </main>
     <script type="module" src="app.js"></script>
   </body>

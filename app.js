@@ -25,6 +25,52 @@ const input = document.querySelector("#seed");
 const random = document.querySelector("#random");
 const reset = document.querySelector("#reset");
 const brightness = document.querySelector("#brightness");
+const svgBackground = document.querySelector("#svg-background");
+svgBackground.setAttribute(
+  "viewBox",
+  `0 0 ${window.innerWidth} ${window.innerHeight}`
+);
+// Create random shapes
+const shapes = [];
+for (let i = 0; i < 100; i++) {
+  const shape = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle"
+  );
+  shape.setAttribute("cx", Math.random() * window.innerWidth);
+  shape.setAttribute("cy", Math.random() * window.innerHeight);
+  shape.setAttribute("r", Math.random() * 50);
+  const colors = [
+    "--md-sys-color-primary",
+    "--md-sys-color-primary-container",
+    "--md-sys-color-secondary",
+    "--md-sys-color-secondary-container",
+    "--md-sys-color-tertiary",
+    "--md-sys-color-tertiary-container",
+  ];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  shape.setAttribute("fill", `var(${randomColor})`);
+  shapes.push(shape);
+  // Animate position
+  const animation = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "animate"
+  );
+  animation.setAttribute("attributeName", "cx");
+  const from = Math.random() * window.innerWidth;
+  const to = Math.random() * window.innerWidth;
+  let duration = Math.random() * 100;
+  // Ensure more than 5 seconds
+  if (duration < 5) {
+    duration = 5;
+  }
+  animation.setAttribute("dur", duration + "s");
+  animation.setAttribute("values", `${from};${to};${from}`);
+  animation.setAttribute("repeatCount", "indefinite");
+  shape.appendChild(animation);
+
+  svgBackground.appendChild(shape);
+}
 
 function applyTheme(theme, options) {
   const target = options?.target || document.body;
