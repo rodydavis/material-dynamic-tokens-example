@@ -63,16 +63,24 @@ reset.addEventListener("click", () => {
   setTheme("");
 });
 
-function setTheme(color) {
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", (event) => {
+    const isDark = event.matches;
+    const color = localStorage.getItem("theme");
+    setTheme(color, isDark);
+  });
+
+function setTheme(color, isDark) {
   if (color === "") {
     localStorage.removeItem("theme");
-    target.setAttribute('style', '');
+    target.setAttribute("style", "");
     return;
   }
   localStorage.setItem("theme", color);
   const intColor = utils.argbFromHex(color);
   const theme = themeFromSeed(intColor);
-  applyTheme(theme, target);
+  applyTheme(theme, target, isDark);
 }
 
 const saved = localStorage.getItem("theme");
