@@ -54,12 +54,12 @@ function setupBackground() {
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     shape.setAttribute("fill", `var(${randomColor})`);
     shapes.push(shape);
-    // Animate position
-    const animation = document.createElementNS(
+    // Animate x position
+    const animationX = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "animate"
     );
-    animation.setAttribute("attributeName", "cx");
+    animationX.setAttribute("attributeName", "cx");
     const from = Math.random() * window.innerWidth;
     const to = Math.random() * window.innerWidth;
     let duration = Math.random() * 100;
@@ -67,10 +67,23 @@ function setupBackground() {
     if (duration < 5) {
       duration = 5;
     }
-    animation.setAttribute("dur", duration + "s");
-    animation.setAttribute("values", `${from};${to};${from}`);
-    animation.setAttribute("repeatCount", "indefinite");
-    shape.appendChild(animation);
+    animationX.setAttribute("dur", duration + "s");
+    animationX.setAttribute("values", `${from};${to};${from}`);
+    animationX.setAttribute("repeatCount", "indefinite");
+    shape.appendChild(animationX);
+
+    // Animate y position
+    const animationY = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "animate"
+    );
+    animationY.setAttribute("attributeName", "cy");
+    const fromY = Math.random() * window.innerHeight;
+    const toY = Math.random() * window.innerHeight;
+    animationY.setAttribute("dur", duration + "s");
+    animationY.setAttribute("values", `${fromY};${toY};${fromY}`);
+    animationY.setAttribute("repeatCount", "indefinite");
+    shape.appendChild(animationY);
 
     svgBackground.appendChild(shape);
   }
