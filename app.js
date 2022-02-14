@@ -85,6 +85,19 @@ function setupBackground() {
     animationY.setAttribute("repeatCount", "indefinite");
     shape.appendChild(animationY);
 
+    // Animate radius
+    const animationR = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "animate"
+    );
+    animationR.setAttribute("attributeName", "r");
+    const fromR = Math.random() * 50;
+    const toR = Math.random() * 50;
+    animationR.setAttribute("dur", duration + "s");
+    animationR.setAttribute("values", `${fromR};${toR};${fromR}`);
+    animationR.setAttribute("repeatCount", "indefinite");
+    shape.appendChild(animationR);
+
     svgBackground.appendChild(shape);
   }
 }
