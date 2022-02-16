@@ -1,3 +1,3 @@
-# empty-material
+# material-dynamic-tokens-example
 
-https://rodydavis.github.io/empty-material/
+https://rodydavis.github.io/material-dynamic-tokens-example/
