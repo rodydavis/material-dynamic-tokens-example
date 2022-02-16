@@ -1,24 +1,4 @@
-import * as utils from "https://cdn.skypack.dev/@guidezpl/material-color-utilities";
-
-function themeFromSeed(seed) {
-  const palette = utils.CorePalette.of(seed);
-  return {
-    seed: seed,
-    schemes: {
-      light: utils.Scheme.light(seed),
-      dark: utils.Scheme.dark(seed),
-    },
-    palettes: {
-      primary: palette.a1,
-      secondary: palette.a2,
-      tertiary: palette.a3,
-      neutral: palette.n1,
-      neutralVariant: palette.n2,
-      error: palette.error,
-    },
-    customColors: [],
-  };
-}
+import * as utils from "https://cdn.skypack.dev/@material/material-color-utilities";
 
 const target = document.body;
 const input = document.querySelector("#seed");
@@ -108,19 +88,6 @@ window.addEventListener("resize", () => {
   setupBackground();
 });
 
-function applyTheme(theme, options) {
-  const target = options?.target || document.body;
-  const isDark =
-    options?.dark ?? window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const scheme = isDark ? theme.schemes.dark : theme.schemes.light;
-  const json = Object(scheme)["props"];
-  for (const [key, value] of Object.entries(json)) {
-    const token = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-    const color = utils.hexFromArgb(value);
-    target.style.setProperty(`--md-sys-color-${token}`, color);
-  }
-}
-
 function randomColor() {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -149,8 +116,8 @@ function setTheme(color, dark) {
   reset.removeAttribute("disabled");
   localStorage.setItem("theme", color);
   const intColor = utils.argbFromHex(color);
-  const theme = themeFromSeed(intColor);
-  applyTheme(theme, { target, dark });
+  const theme = utils.themeFromSourceColor(intColor);
+  utils.applyTheme(theme, { target, dark });
 }
 
 input.addEventListener("input", (event) => {
